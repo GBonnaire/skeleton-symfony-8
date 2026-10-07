@@ -166,7 +166,7 @@ export class Modal extends EventsDispatcher {
 
         // ── Footer ───────────────────────────────────────────────
         this.footer = document.createElement('div');
-        this.footer.className = 'modal-footer bg-ink-50 px-6 py-4 border-t border-ink-100';
+        this.footer.className = 'modal-footer rounded-b-lg bg-ink-50 px-6 py-4 border-t border-ink-100';
         if(this.options.footer) {
             if(typeof this.options.footer == "string") {
                 this.footer.innerHTML = this.options.footer;
@@ -178,8 +178,11 @@ export class Modal extends EventsDispatcher {
         }
 
         // ── Panel (carte visible) ─────────────────────────────────
+        // Pas d'« overflow-hidden » ici : il rognerait les listes déroulantes (Choices.js) qui s'ouvrent en
+        // position absolue et peuvent dépasser la hauteur du panneau (ex. modale de création rapide d'un client).
+        // Les coins arrondis sont assurés par les coins de header/footer eux-mêmes (voir leurs classes).
         this.panel = document.createElement('div');
-        this.panel.className = 'relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl sm:my-8 sm:w-full sm:max-w-lg';
+        this.panel.className = 'relative transform rounded-lg bg-white text-left shadow-xl sm:my-8 sm:w-full sm:max-w-lg';
 
         this.panel.append(this.header, this.content, this.footer);
 
