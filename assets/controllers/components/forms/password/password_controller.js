@@ -10,6 +10,23 @@ export default class extends Controller {
         this.#bindEvents();
     }
 
+    init() {
+        this.updatePosition();
+    }
+
+    updatePosition() {
+        if (!this.trigger) {
+            return;
+        }
+
+        const parentElement = this.element.parentElement;
+        const coordElement = this.element.getBoundingClientRect();
+        const coordParentElement = parentElement.getBoundingClientRect();
+        const topOfTrigger = (coordElement.top - coordParentElement.top) + (coordElement.height / 2) - 10 /* Icon size /2 */;
+
+        this.trigger.style.top = topOfTrigger+"px";
+    }
+
     onChange() {
         if(this.strenghtModeValue) {
             this.#updateStrength();
@@ -24,12 +41,7 @@ export default class extends Controller {
         this.trigger.classList.add("fas", "fa-eye", "absolute", "right-3", "text-xl", "cursor-pointer", "text-gray-500", "inline-block");
         this.element.after(this.trigger);
 
-        // calculate position
-        const coordElement = this.element.getBoundingClientRect();
-        const coordParentElement = parentElement.getBoundingClientRect();
-        const topOfTrigger = (coordElement.top - coordParentElement.top) + (coordElement.height / 2) - 10 /* Icon size /2 */;
-
-        this.trigger.style.top = topOfTrigger+"px";
+        this.updatePosition();
 
         if(this.strenghtModeValue) {
             this.strenghtElement = document.createElement("div");
@@ -41,8 +53,6 @@ export default class extends Controller {
             this.strenghtElement.append(this.strengthFillElement);
             this.strenghtElement.append(this.strengthLabelElement);
         }
-
-
     }
 
     #bindEvents(){
@@ -74,7 +84,7 @@ export default class extends Controller {
         return Math.min(score, 5);
     }
 
-     #updateStrength() {
+    #updateStrength() {
         const val = this.element.value || '';
         const s = val ? this.#scorePassword(val) : -1;
         let width = '0%';
