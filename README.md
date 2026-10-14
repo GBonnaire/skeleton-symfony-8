@@ -1,8 +1,8 @@
-# Skeleton Symfony 8.0
+# Skeleton Symfony 8
 
-> Squelette de projet **Symfony 8.0** prêt à l'emploi : stack front-end moderne (Webpack Encore + Tailwind CSS v4 + Stimulus/Turbo), bibliothèque de composants UX, authentification complète, API REST documentée, environnement Docker complet et intégration **Claude Code** (skills, design system, agent IA dédié).
+> Squelette de projet **Symfony 8** prêt à l'emploi : stack front-end moderne (Webpack Encore + Tailwind CSS v4 + Stimulus/Turbo), bibliothèque de composants UX, authentification complète, API REST documentée, environnement Docker complet et intégration **Claude Code** (skills, design system, agent IA dédié).
 
-[![Symfony](https://img.shields.io/badge/Symfony-8.0-000000?logo=symfony)](https://symfony.com)
+[![Symfony](https://img.shields.io/badge/Symfony-8.1-000000?logo=symfony)](https://symfony.com)
 [![PHP](https://img.shields.io/badge/PHP-%E2%89%A58.4-777BB4?logo=php)](https://www.php.net)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38BDF8?logo=tailwindcss)](https://tailwindcss.com)
 [![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker)](https://www.docker.com)
@@ -47,7 +47,7 @@ Ce squelette fournit une base de projet web complète, opinionée et documentée
 
 | Domaine | Technologies |
 |---|---|
-| **Back-end** | Symfony 8.0, PHP ≥ 8.4 |
+| **Back-end** | Symfony 8.1, PHP ≥ 8.4 |
 | **ORM** | Doctrine ORM 3, Doctrine Migrations |
 | **Front-end** | Webpack Encore, Tailwind CSS v4, Stimulus, Turbo (Symfony UX), FontAwesome 7 |
 | **Templating** | Twig + Twig Components (Symfony UX) |
@@ -65,7 +65,7 @@ Ce squelette fournit une base de projet web complète, opinionée et documentée
 
 Des installeurs sont disponibles pour **Linux**, **macOS** et **Windows** dans le dépôt :
 
-➡️ **https://github.com/GBonnaire/skeleton-installer/tree/main/symfony-8.0**
+➡️ **https://github.com/GBonnaire/skeleton-installer/tree/main/symfony-8**
 
 Ils reproduisent un `composer create-project` : clonage du squelette, réinitialisation de l'historique Git (départ propre), build + démarrage des conteneurs Docker, puis `composer install`, `yarn install` et `yarn dev`.
 
@@ -75,14 +75,14 @@ Ils reproduisent un `composer create-project` : clonage du squelette, réinitial
 
 ```bash
 # Utiliser l'installeur (remplacer mon-app par le nom de votre application slugentifier)
-curl -fsSL https://raw.githubusercontent.com/GBonnaire/skeleton-installer/main/symfony-8.0/create-project.sh | bash -s mon-app
+curl -fsSL https://raw.githubusercontent.com/GBonnaire/skeleton-installer/main/symfony-8/create-project.sh | bash -s mon-app
 ```
 
 ### Windows
 
 ```bat
 :: Télécharger create-project.bat depuis :
-:: https://github.com/GBonnaire/skeleton-installer/tree/main/symfony-8.0
+:: https://github.com/GBonnaire/skeleton-installer/tree/main/symfony-8
 
 create-project.bat mon-app
 ```
@@ -94,7 +94,7 @@ create-project.sh|.bat [repertoire-destination] [url-du-depot-git]
 ```
 
 - `repertoire-destination` *(optionnel)* — dossier cible (par défaut : demandé, ou `.` = répertoire courant qui doit être vide).
-- `url-du-depot-git` *(optionnel)* — par défaut `https://github.com/GBonnaire/skeleton-symfony-8.0.git`.
+- `url-du-depot-git` *(optionnel)* — par défaut `https://github.com/GBonnaire/skeleton-symfony-8.git`.
 
 À la fin, l'application est accessible sur http://localhost (voir [Services & URLs](#services--urls)).
 
@@ -106,7 +106,7 @@ Si vous préférez ne pas utiliser les installeurs :
 
 ```bash
 # 1. Cloner le squelette
-git clone https://github.com/GBonnaire/skeleton-symfony-8.0.git mon-app
+git clone https://github.com/GBonnaire/skeleton-symfony-8.git mon-app
 cd mon-app
 
 # 2. (optionnel) repartir d'un historique Git propre
