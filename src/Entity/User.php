@@ -9,8 +9,10 @@ use App\Util\Doctrine\CreatedAtTrait;
 use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -25,6 +27,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    /**
+     * Public identifier, used in URLs and API responses (the integer id stays internal).
+     */
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    private Uuid $uuid;
 
     #[ORM\Column(length: 180)]
     private ?string $email = null;
@@ -66,9 +74,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?DateTime $lastActivityDate = null;
 
+    public function __construct()
+    {
+        $this->uuid = Uuid::v7();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUuid(): Uuid
+    {
+        return $this->uuid;
     }
 
     public function getEmail(): ?string

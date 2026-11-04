@@ -16,7 +16,7 @@ class JwtService
     {
         $header = $this->b64encode(json_encode(['alg' => 'HS256', 'typ' => 'JWT']));
         $payload = $this->b64encode(json_encode([
-            'sub' => $user->getId(),
+            'sub' => $user->getUuid()->toRfc4122(),
             'email' => $user->getUserIdentifier(),
             'roles' => $user->getRoles(),
             'iat' => time(),

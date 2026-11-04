@@ -4,7 +4,7 @@
 
 - **Tous les endpoints sont en anglais** (noms de ressources, paramètres, slugs)
 - Séparateur de mots : tiret `-` (kebab-case) pour les segments d'URL
-- **Jamais d'`id` auto-incrémenté dans une URL ni dans le JSON** : identifier une ressource par son **UUID v7** (par défaut) ou son **slug** (ressource publique lisible). Règles et exemples : `guide-symfony.md` § Routes & URLs. Seule exception : les URLs générées par EasyAdmin (back-office) gardent l'`id` ; elle ne s'applique jamais à l'API
+- **Jamais d'`id` auto-incrémenté dans une URL ni dans le JSON** : identifier une ressource par son **UUID v7** (par défaut) ou son **slug** (ressource publique lisible). Règles et exemples : `guide-symfony.md` § Routes & URLs. Seule exception : les URLs générées par EasyAdmin (back-office) gardent l'`id`
 - De base la version de l'API est V1 et pourra avoir plusieurs version en fonction des évolutions majeures
 
 ---
