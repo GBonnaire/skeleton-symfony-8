@@ -15,7 +15,7 @@ RUN apt-get install -y libzip-dev zip
 RUN apt-get install -y git
 
 # Install npm
-RUN curl -sL https://deb.nodesource.com/setup_24.x -o nodesource_setup.sh
+RUN curl -sL https://deb.nodesource.com/setup_26.x -o nodesource_setup.sh
 RUN bash nodesource_setup.sh
 RUN apt-get install -y nodejs
 RUN rm nodesource_setup.sh
