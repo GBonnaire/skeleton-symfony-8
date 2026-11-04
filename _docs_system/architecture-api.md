@@ -4,26 +4,27 @@
 
 - **Tous les endpoints sont en anglais** (noms de ressources, paramètres, slugs)
 - Séparateur de mots : tiret `-` (kebab-case) pour les segments d'URL
+- **Jamais d'`id` auto-incrémenté dans une URL ni dans le JSON** : identifier une ressource par son **UUID v7** (par défaut) ou son **slug** (ressource publique lisible). Règles et exemples : `guide-symfony.md` § Routes & URLs. Seule exception : les URLs générées par EasyAdmin (back-office) gardent l'`id` ; elle ne s'applique jamais à l'API
 - De base la version de l'API est V1 et pourra avoir plusieurs version en fonction des évolutions majeures
 
 ---
 
 ## Structure des URLs
 
-Suivre le modèle REST imbriqué : `/v1/<collection>[/<id>[/<collection>[/<id>]...]]`
+Suivre le modèle REST imbriqué : `/v1/<collection>[/<uuid|slug>[/<collection>[/<uuid|slug>]...]]`
 
 ```
 GET  /v1/products
-GET  /v1/products/42
-GET  /v1/products/42/variantes
-GET  /v1/products/42/variantes/7
-GET  /v1/users/1/alerts
-GET  /v1/users/1/alerts/99/matches
+GET  /v1/products/blue-cotton-shirt
+GET  /v1/products/blue-cotton-shirt/variants
+GET  /v1/products/blue-cotton-shirt/variants/01933b6e-7c1a-7d2f-9a4b-3f8e2c1d5a60
+GET  /v1/users/01933b6e-5f20-7a11-8c3d-9e4f1a2b3c4d/alerts
+GET  /v1/users/01933b6e-5f20-7a11-8c3d-9e4f1a2b3c4d/alerts/01933b6f-0a12-7b34-8c56-7d8e9f0a1b2c/matches
 ```
 
 Règles :
-- Un segment de collection est toujours un **pluriel** (`products`, `alerts`, `variantes`)
-- L'`<id>` suit immédiatement la collection à laquelle il appartient
+- Un segment de collection est toujours un **pluriel** en anglais (`products`, `alerts`, `variants`)
+- L'identifiant (`uuid` ou `slug`) suit immédiatement la collection à laquelle il appartient ; jamais l'`id` interne
 - Ne pas dépasser 5 niveaux d'imbrication ; aplatir si nécessaire
 
 ---
@@ -54,7 +55,7 @@ Toutes les réponses API sont du JSON avec la structure suivante :
   "status": "success",
   "message": "ok",
   "data": {
-    "id": 42,
+    "uuid": "01933b6e-7c1a-7d2f-9a4b-3f8e2c1d5a60",
     "name": "Dr. Martin",
     "specialty": "cardiologist"
   }
@@ -67,8 +68,8 @@ Toutes les réponses API sont du JSON avec la structure suivante :
   "status": "success",
   "message": "ok",
   "data": [
-    { "id": 1, "name": "Dr. Martin" },
-    { "id": 2, "name": "Dr. Dupont" }
+    { "uuid": "01933b6e-7c1a-7d2f-9a4b-3f8e2c1d5a60", "name": "Dr. Martin" },
+    { "uuid": "01933b6e-8d2b-7e3f-8b5c-4a9f3d2e6b71", "name": "Dr. Dupont" }
   ]
 }
 ```
@@ -114,6 +115,8 @@ Toutes les réponses API sont du JSON avec la structure suivante :
 - Préfixer toutes les routes API avec `/api`
 - Utiliser les attributs PHP `#[Route]` avec `methods:` explicites
 
+- Paramètre contraint (`Requirement::UUID_V7` / `Requirement::ASCII_SLUG`) et lié à l'entité par `{param:argument}`
+
 ```php
-#[Route('/api/v1/products/{id}/variantes', name: 'api_product_variantes', methods: ['GET'])]
+#[Route('/api/v1/products/{slug:product}/variants', name: 'api_product_variants', requirements: ['slug' => Requirement::ASCII_SLUG], methods: ['GET'])]
 ```
