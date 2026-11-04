@@ -1,0 +1,8 @@
+framework:
+    rate_limiter:
+        # API authentication (POST /api/auth): max 5 attempts per (email + IP) every 15 minutes, reset on success.
+        # The web login form is throttled by security.firewalls.main.login_throttling.
+        api_auth:
+            policy: sliding_window
+            limit: 5
+            interval: '15 minutes'

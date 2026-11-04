@@ -8,9 +8,11 @@ use App\Service\JwtService;
 use App\Util\Helpers\ApiResponse;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/api', name: 'app_api_')]
@@ -64,6 +66,7 @@ class ApiController extends AbstractController
                 )
             ),
             new OA\Response(response: 401, description: 'Invalid credentials or missing ROLE_API'),
+            new OA\Response(response: 429, description: 'Too many attempts, retry after the delay given in the Retry-After header'),
         ]
     )]
     public function auth(
@@ -71,12 +74,22 @@ class ApiController extends AbstractController
         UserRepository $userRepository,
         UserPasswordHasherInterface $passwordHasher,
         JwtService $jwtService,
+        #[Target('api_auth')] RateLimiterFactoryInterface $apiAuthLimiter,
     ): Response {
         $email = $request->request->getString('email');
         $password = $request->request->getString('password');
 
         if (!$email || !$password) {
             return ApiResponse::error('Email and password are required.', status: Response::HTTP_UNAUTHORIZED);
+        }
+
+        $limiter = $apiAuthLimiter->create(mb_strtolower($email) . '-' . $request->getClientIp());
+        $limit = $limiter->consume();
+        if (!$limit->isAccepted()) {
+            $response = ApiResponse::error('Too many attempts. Please retry later.', status: Response::HTTP_TOO_MANY_REQUESTS);
+            $response->headers->set('Retry-After', (string) max(1, $limit->getRetryAfter()->getTimestamp() - time()));
+
+            return $response;
         }
 
         $user = $userRepository->findOneBy(['email' => $email]);
@@ -88,6 +101,8 @@ class ApiController extends AbstractController
         if (!in_array(UserRoleEnum::API->value, $user->getRoles(), true)) {
             return ApiResponse::error('Access denied. ROLE_API required.', status: Response::HTTP_UNAUTHORIZED);
         }
+
+        $limiter->reset();
 
         return ApiResponse::success('OK', ['token' => $jwtService->generate($user)]);
     }

@@ -5,6 +5,7 @@
 account:
   login:
     error: "Identifiants invalides. Veuillez vérifier votre email et votre mot de passe."
+    too_many_attempts: "Trop de tentatives de connexion. Veuillez réessayer dans 15 minutes."
   password_change:
     success: "Votre mot de passe a été modifié avec succès."
     error: "Le mot de passe actuel est incorrect."

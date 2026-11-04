@@ -18,7 +18,7 @@ class LoginType extends AbstractType
         $builder
             ->add('_username', EmailType::class, [
                 'label' => 'form_security.email.label',
-                'attr' => ['name' => '_username'],
+                'attr' => ['autocomplete' => 'username'],
                 'constraints' => [
                     new NotBlank(
                         message: 'form_security.email.error.required'
@@ -48,9 +48,10 @@ class LoginType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'csrf_protection' => true,
+            // This form is only rendered: the submission is handled by the form_login authenticator,
+            // which checks the "_csrf_token" field (token id "authenticate") added in login.html.twig.
+            'csrf_protection' => false,
             'translation_domain' => 'form_security',
-            // keep default form CSRF for standard protection; security login additionally expects _csrf_token which we'll add in the template
         ]);
     }
 

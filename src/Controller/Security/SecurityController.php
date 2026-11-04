@@ -7,6 +7,7 @@ use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Exception\TooManyLoginAttemptsAuthenticationException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -21,7 +22,9 @@ class SecurityController extends AbstractController
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
-        if (null != $error) {
+        if ($error instanceof TooManyLoginAttemptsAuthenticationException) {
+            $error = 'account.login.too_many_attempts';
+        } elseif (null !== $error) {
             $error = 'account.login.error';
         }
 
