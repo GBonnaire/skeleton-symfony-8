@@ -29,6 +29,7 @@ Le skeleton fournit déjà composants et conventions ; les réinventer est une e
 ## Standards
 - **Aucun CSS ni JS inline dans Twig.** Une page = 1 template + 1 CSS page + 1 JS page (entrée Encore) si besoin, selon `architecture-frontend.md`.
 - Design system centralisé (`assets/styles/theme.css`) : variables, tokens Tailwind et classes existantes ; jamais de couleur/taille en dur ; ajouter un token plutôt qu'une valeur magique.
+- Écart avec Claude Design (palette, polices, layout global, page de maquette à importer) : ne resynchronise pas à la main, termine ton rapport par `BESOIN-SKILL : update-design-system — <écart constaté>`. Un token isolé pour ta page reste de ton ressort.
 - JS : ES modules, JSDoc sur les fonctions exportées, pas de framework supplémentaire sans accord du brief. Modules petits, à responsabilité unique.
 - Le serveur est la source de vérité : le front affiche, il ne décide rien qui compte. Gérer chargement / erreur (codes métier de l'API) et anti double-clic.
 - Responsive (mobile 390 × 844, ordinateur 1280 × 820), thèmes clair et sombre, `prefers-reduced-motion`.

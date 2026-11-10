@@ -34,6 +34,7 @@ Le skeleton fournit déjà beaucoup d'outils ; les réinventer est une erreur. A
 - Nouvelle dépendance : via Flex / `composer require` (voir `guide-symfony.md`), seulement si le brief l'autorise.
 - Règles propres aux versions installées (Symfony, PHP, Doctrine) : `_docs_system/guide-symfony.md` ; doute sur une API → `BESOIN-DOC`, jamais de supposition.
 - Langue du code et des commentaires : selon la mémoire projet.
+- Tu ajoutes ou modifies une commande console, un cron/tâche planifiée, un worker Messenger, une variable d'environnement, un paramètre `services.yaml` ou une dépendance : termine ton rapport par `BESOIN-SKILL : update-readme — <ce qui a changé>` (tu ne modifies pas le README toi-même).
 
 ## Tests (ciblés)
 - Teste uniquement la **logique métier non triviale** de tes services (calculs, règles, transitions d'état, cas limites) : PHPUnit, `tests/` miroir de `src/`. Pas de test pour un CRUD simple, un getter, de la config ou le comportement du framework.
